@@ -61,7 +61,8 @@ class SearchIndex:
                     docs.append(f"AI summary. {s.chief_concern} {' '.join(s.key_diagnoses)} "
                                 f"{' '.join(s.flagged_anomalies)} {s.summary}")
                     metas.append({"mrn": mrn, "resource_type": SUMMARY_TYPE, "date": 0, "date_str": "",
-                                  "title": "AI clinical summary", "patient_name": names.get(mrn, mrn)})
+                                  "title": "AI clinical summary", "patient_name": names.get(mrn, mrn),
+                                  "record_key": f"summary|{mrn}"})
         for row in store.resources():
             if row["resource_type"] not in INDEXED_TYPES:
                 continue
@@ -69,6 +70,9 @@ class SearchIndex:
             # title carries a lot of signal for short notes ("MRI left knee")
             docs.append(f"{row['title']}. {row['text']}")
             metas.append({"mrn": row["mrn"], "resource_type": row["resource_type"],
+                          # a lab/imaging record is indexed twice (DocumentReference + DiagnosticReport);
+                          # record_key lets search collapse them into one result
+                          "record_key": f"{row['mrn']}|{row['record_date']}|{row['title']}",
                           "date": _date_int(row["record_date"]), "date_str": row["record_date"] or "",
                           "title": row["title"], "patient_name": names.get(row["mrn"], row["mrn"])})
         self._summary_snippets = {m: s.summary for m, s in summary_text.items()}
@@ -91,10 +95,15 @@ class SearchIndex:
         total = self.collection.count()
         if total == 0:
             return [], 0.0
-        res = self.collection.query(query_embeddings=self.embedder.embed([query]), n_results=min(top_k, total),
+        res = self.collection.query(query_embeddings=self.embedder.embed([query]), n_results=min(top_k * 3, total),
                                     where=where, include=["documents", "metadatas", "distances"])
-        hits = []
+        hits, seen = [], set()
         for id_, doc, meta, dist in zip(res["ids"][0], res["documents"][0], res["metadatas"][0], res["distances"][0]):
+            if meta["record_key"] in seen:
+                continue
+            seen.add(meta["record_key"])
+            if len(hits) == top_k:
+                break
             text = doc.split(". ", 1)[1] if ". " in doc else doc
             hits.append(SearchHit(
                 id=id_, mrn=meta["mrn"], patient_name=meta["patient_name"], resource_type=meta["resource_type"],

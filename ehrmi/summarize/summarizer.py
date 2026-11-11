@@ -177,7 +177,9 @@ def extractive_summary(docs: PatientDocs) -> ClinicalSummary:
              for d in reversed(docs.documents)][:4]
     impressions = [m.group(1).strip().rstrip(".") for d in docs.documents
                    for m in re.finditer(r"(?:Impression|Admitted with)[: ]+([^.]+)", d["text"])]
-    concern = impressions[-1] if impressions else (latest["title"] if latest else "No documents")
+    flag_text = [f.split(" (")[0] for f in flags if "(H)" not in f and "(L)" not in f]
+    concern = (impressions[-1] if impressions else flag_text[0] if flag_text
+               else latest["title"] if latest else "No documents")
     return ClinicalSummary(
         mrn=docs.mrn,
         chief_concern=concern[0].upper() + concern[1:],

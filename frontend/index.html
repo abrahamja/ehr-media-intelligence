@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en" class="h-full bg-slate-50">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EHR Media Search</title>
+  <link rel="stylesheet" href="/static/tailwind.css">
+</head>
+<body class="h-full text-slate-800">
+  <a href="#results" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-white px-3 py-2 rounded shadow">Skip to results</a>
+
+  <header class="bg-white border-b border-slate-200">
+    <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+      <h1 class="text-lg font-semibold text-slate-900">EHR Media Search</h1>
+      <span class="text-xs text-slate-500">Synthetic data only</span>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-4 py-6">
+    <form id="search-form" role="search" aria-label="Search patient records" class="space-y-3">
+      <label for="q" class="sr-only">Search records</label>
+      <div class="flex gap-2">
+        <input id="q" name="q" type="search" autocomplete="off" required minlength="2"
+               placeholder="e.g. suspicious kidney lesion, heart failure follow-up, low ferritin"
+               class="flex-1 rounded-lg border border-slate-300 px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-sky-500">
+        <button type="submit" class="rounded-lg bg-sky-700 px-5 py-3 font-medium text-white hover:bg-sky-800 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2">Search</button>
+      </div>
+
+      <fieldset class="flex flex-wrap items-end gap-3">
+        <legend class="sr-only">Filters</legend>
+        <div>
+          <label for="type" class="block text-xs font-medium text-slate-600 mb-1">Resource type</label>
+          <select id="type" class="rounded-md border border-slate-300 px-3 py-2 text-sm">
+            <option value="">All types</option>
+            <option value="DocumentReference">DocumentReference</option>
+            <option value="DiagnosticReport">DiagnosticReport</option>
+            <option value="AISummary">AI summary</option>
+          </select>
+        </div>
+        <div>
+          <label for="from" class="block text-xs font-medium text-slate-600 mb-1">From</label>
+          <input id="from" type="date" class="rounded-md border border-slate-300 px-3 py-2 text-sm">
+        </div>
+        <div>
+          <label for="to" class="block text-xs font-medium text-slate-600 mb-1">To</label>
+          <input id="to" type="date" class="rounded-md border border-slate-300 px-3 py-2 text-sm">
+        </div>
+        <button type="button" id="clear" class="text-sm text-sky-700 underline px-1 py-2">Clear filters</button>
+      </fieldset>
+    </form>
+
+    <p id="status" class="mt-6 text-sm text-slate-500" role="status" aria-live="polite">Type a question about the patients' records.</p>
+    <ol id="results" class="mt-3 space-y-3" aria-label="Search results"></ol>
+  </main>
+
+  <!-- patient drawer -->
+  <div id="drawer-backdrop" class="fixed inset-0 bg-slate-900/40 hidden" aria-hidden="true"></div>
+  <aside id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title" tabindex="-1"
+         class="fixed inset-y-0 right-0 w-full sm:w-[34rem] bg-white shadow-xl translate-x-full transition-transform duration-200 overflow-y-auto focus:outline-none">
+    <div class="sticky top-0 bg-white border-b border-slate-200 px-5 py-4 flex items-start justify-between">
+      <div>
+        <h2 id="drawer-title" class="text-lg font-semibold">Patient</h2>
+        <p id="drawer-sub" class="text-sm text-slate-500"></p>
+      </div>
+      <button id="drawer-close" type="button" class="rounded p-2 text-slate-500 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500" aria-label="Close patient details">&#x2715;</button>
+    </div>
+    <div id="drawer-body" class="px-5 py-4 space-y-5"></div>
+  </aside>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
