@@ -5,6 +5,7 @@ description = "Ingest messy EHR media records, normalise to FHIR R4, summarise w
 requires-python = ">=3.11"
 dependencies = [
     "pydantic>=2.6",
+    "fhir.resources>=8.0",
 ]
 
 [tool.pytest.ini_options]
