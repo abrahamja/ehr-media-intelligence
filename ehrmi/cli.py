@@ -3,6 +3,7 @@
     python -m ehrmi.cli ingest          # Task 1: clean records + audit log
     python -m ehrmi.cli fhir            # Task 2: FHIR Bundles, validation report, SQLite store
     python -m ehrmi.cli summarize       # Task 3: cached clinical summaries per patient
+    python -m ehrmi.cli serve           # Task 4/5: build the vector index and start the API + UI
 """
 
 from __future__ import annotations
@@ -76,6 +77,15 @@ def cmd_summarize(args) -> None:
     print(f"cache hits={cache.hits} misses={cache.misses}")
 
 
+def cmd_serve(args) -> None:
+    import uvicorn
+
+    store = FhirStore(DB_PATH)
+    if not store.mrns():
+        cmd_summarize(argparse.Namespace(provider=None))
+    uvicorn.run("ehrmi.api:app", host=args.host, port=args.port)
+
+
 def main(argv=None) -> None:
     parser = argparse.ArgumentParser(prog="ehrmi")
     sub = parser.add_subparsers(dest="cmd", required=True)
@@ -85,6 +95,10 @@ def main(argv=None) -> None:
     p_sum.add_argument("--provider", choices=["anthropic", "openai", "extractive"], default=None,
                        help="default: anthropic if ANTHROPIC_API_KEY is set, else openai, else extractive")
     p_sum.set_defaults(func=cmd_summarize)
+    p_serve = sub.add_parser("serve")
+    p_serve.add_argument("--host", default="127.0.0.1")
+    p_serve.add_argument("--port", type=int, default=8000)
+    p_serve.set_defaults(func=cmd_serve)
     args = parser.parse_args(argv)
     args.func(args)
 
