@@ -1,0 +1,87 @@
+{
+  "export": "simulated-epic-media-export",
+  "generated": "2026-11-01T08:00:00Z",
+  "records": [
+    {
+      "record_id": "DOC-1001",
+      "patient": {"mrn": "MRN-000123", "first_name": "Maria", "last_name": "Gonzalez", "dob": "1968-03-14", "sex": "F"},
+      "doc_type": "lab_pdf",
+      "date": "2026-10-02",
+      "title": "Comprehensive Metabolic Panel",
+      "text": "Glucose 182 mg/dL (H). HbA1c 8.4% (H). Creatinine 1.1 mg/dL. Potassium 4.2 mmol/L. Impression: poorly controlled type 2 diabetes.",
+      "encounter_id": "ENC-5001"
+    },
+    {
+      "record_id": "DOC-1002",
+      "patient": {"mrn": "000123", "first_name": "maria", "last_name": "GONZALEZ", "dob": "03/14/1968", "sex": "female"},
+      "doc_type": "imaging_note",
+      "date": "10/05/2026",
+      "title": "Retinal imaging",
+      "text": "Fundus photography both eyes. Mild non-proliferative diabetic retinopathy OD, none OS. Recommend ophthalmology follow-up in 6 months.",
+      "encounter_id": "ENC-5002"
+    },
+    {
+      "record_id": "DOC-1002",
+      "patient": {"mrn": "000123", "first_name": "maria", "last_name": "GONZALEZ", "dob": "03/14/1968", "sex": "female"},
+      "doc_type": "imaging_note",
+      "date": "10/05/2026",
+      "title": "Retinal imaging",
+      "text": "Fundus photography both eyes. Mild non-proliferative diabetic retinopathy OD, none OS. Recommend ophthalmology follow-up in 6 months.",
+      "encounter_id": "ENC-5002"
+    },
+    {
+      "record_id": "DOC-1003",
+      "patient": {"mrn": "mrn 456", "first_name": "James", "last_name": "O'Neil", "dob": "1955-11-30", "sex": "M"},
+      "doc_type": "discharge_summary",
+      "date": "2026-09-18T14:22:00",
+      "title": "Discharge summary - CHF exacerbation",
+      "text": "Admitted with acute on chronic systolic heart failure, EF 30%. Diuresed with IV furosemide, weight down 4 kg. Discharged on furosemide 40 mg daily, lisinopril 10 mg, carvedilol 6.25 mg BID. Follow up cardiology in 1 week.",
+      "encounter_id": "ENC-6001"
+    },
+    {
+      "record_id": "DOC-1004",
+      "patient": {"mrn": "MRN-000456", "first_name": "James", "last_name": "O'Neil", "dob": "30 Nov 1955", "sex": "male"},
+      "doc_type": "imaging_note",
+      "date": "2026-09-16",
+      "title": "Chest X-ray PA/Lat",
+      "text": "Cardiomegaly with bilateral small pleural effusions and pulmonary vascular congestion. No focal consolidation.",
+      "encounter_id": "ENC-6001"
+    },
+    {
+      "record_id": "DOC-1005",
+      "patient": {"mrn": "MRN-000789", "first_name": "Aisha", "last_name": "Bello", "dob": null, "sex": "F"},
+      "doc_type": "scanned_document",
+      "date": "2026/10/20",
+      "title": "Referral letter (scanned)",
+      "text": "Referred for evaluation of persistent iron deficiency anaemia despite oral iron. Ferritin 6 ng/mL. Please assess for GI blood loss.",
+      "encounter_id": null
+    },
+    {
+      "record_id": "DOC-1006",
+      "patient": {"mrn": "MRN-000789", "first_name": "Aisha", "last_name": "Bello", "dob": "1990-07-08", "sex": "U"},
+      "doc_type": "lab_pdf",
+      "date": "2026-10-24",
+      "title": "Complete Blood Count",
+      "text": "Hemoglobin 7.9 g/dL (L). MCV 68 fL (L). Platelets 410 x10^9/L. Impression: microcytic anaemia.",
+      "encounter_id": "ENC-7001"
+    },
+    {
+      "record_id": "DOC-1007",
+      "patient": {"mrn": "MRN-000321", "first_name": "Wei", "last_name": "Chen", "dob": "1979-01-25", "sex": "M"},
+      "doc_type": "imaging_note",
+      "date": "2026-10-11",
+      "title": "CT abdomen/pelvis with contrast",
+      "text": "4.2 cm enhancing lesion in the right kidney lower pole, suspicious for renal cell carcinoma. No lymphadenopathy. Recommend urology referral.",
+      "encounter_id": "ENC-8001"
+    },
+    {
+      "record_id": "DOC-1008",
+      "patient": {"mrn": "MRN-000321", "first_name": "Wei", "last_name": "Chen", "dob": "1979-01-25", "sex": "M"},
+      "doc_type": "lab_pdf",
+      "date": "",
+      "title": "Urinalysis",
+      "text": "Microscopic hematuria, 15 RBC/hpf. Protein negative.",
+      "encounter_id": "ENC-8001"
+    }
+  ]
+}

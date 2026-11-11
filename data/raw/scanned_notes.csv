@@ -1,0 +1,7 @@
+record_id,mrn,patient_name,dob,sex,doc_type,date,title,text,encounter_id
+NOTE-2001,123,"Gonzalez, Maria",14/03/1968,F,lab_result,2026-10-28,Lipid panel,"LDL 162 mg/dL (H), HDL 38 mg/dL (L), triglycerides 240 mg/dL (H).",ENC-5003
+NOTE-2002,MRN-000456,"O'Neil, James",1955-11-30,M,clinic_note,28-Oct-2026,Cardiology follow-up,"Euvolemic, weight stable. NYHA class II. Continue current regimen, add spironolactone 25 mg daily. BNP 420 pg/mL.",ENC-6002
+NOTE-2003,MRN-000654,"Okafor, Daniel",1984-06-02,Male,scanned_document,2026-10-30,Physiotherapy assessment (scanned),"Left knee pain after football injury. ACL laxity on Lachman test. MRI requested.",
+NOTE-2004,MRN-000654,"Okafor, Daniel",1984-06-02,M,imaging_note,2026-11-03,MRI left knee,"Complete tear of the anterior cruciate ligament with bone bruising of the lateral femoral condyle. Small joint effusion.",ENC-9001
+NOTE-2005,,"Unknown, Patient",,,lab_result,2026-11-04,Orphan lab,"Sodium 139 mmol/L.",
+NOTE-2006,MRN-000789,"Bello, Aisha",1991-07-08,F,lab_result,2026-11-05,Iron studies,"Ferritin 5 ng/mL (L), transferrin saturation 6% (L).",ENC-7002

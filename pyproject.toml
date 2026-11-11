@@ -1,0 +1,11 @@
+[project]
+name = "ehr-media-intelligence"
+version = "0.1.0"
+description = "Ingest messy EHR media records, normalise to FHIR R4, summarise with an LLM and search them semantically."
+requires-python = ">=3.11"
+dependencies = [
+    "pydantic>=2.6",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
