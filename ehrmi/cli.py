@@ -2,6 +2,7 @@
 
     python -m ehrmi.cli ingest          # Task 1: clean records + audit log
     python -m ehrmi.cli fhir            # Task 2: FHIR Bundles, validation report, SQLite store
+    python -m ehrmi.cli summarize       # Task 3: cached clinical summaries per patient
 """
 
 from __future__ import annotations
@@ -14,6 +15,8 @@ from .fhir.mapper import build_bundles
 from .fhir.store import FhirStore
 from .fhir.validate import format_report, validate_all
 from .ingest.pipeline import ingest
+from .summarize.cache import SummaryCache
+from .summarize.summarizer import Summarizer, docs_from_bundle
 
 ROOT = Path(__file__).resolve().parents[1]
 RAW = ROOT / "data" / "raw"
@@ -56,11 +59,32 @@ def cmd_fhir(args) -> None:
     print(text)
 
 
+def cmd_summarize(args) -> None:
+    store = FhirStore(DB_PATH)
+    if not store.mrns():
+        cmd_fhir(args)
+    cache = SummaryCache(DB_PATH)
+    summarizer = Summarizer(provider=args.provider)
+    out = VAR / "summaries"
+    out.mkdir(parents=True, exist_ok=True)
+    for mrn in store.mrns():
+        summary = cache.get_or_create(docs_from_bundle(mrn, store.bundle(mrn)), summarizer)
+        (out / f"{mrn}.json").write_text(summary.model_dump_json(indent=2))
+        notes = f"  [{'; '.join(summary.quality_notes)}]" if summary.quality_notes else ""
+        print(f"{mrn}  {summary.provider}/{summary.model}  confidence={summary.confidence}  "
+              f"{summary.word_count()} words{notes}")
+    print(f"cache hits={cache.hits} misses={cache.misses}")
+
+
 def main(argv=None) -> None:
     parser = argparse.ArgumentParser(prog="ehrmi")
     sub = parser.add_subparsers(dest="cmd", required=True)
     sub.add_parser("ingest").set_defaults(func=cmd_ingest)
     sub.add_parser("fhir").set_defaults(func=cmd_fhir)
+    p_sum = sub.add_parser("summarize")
+    p_sum.add_argument("--provider", choices=["anthropic", "openai", "extractive"], default=None,
+                       help="default: anthropic if ANTHROPIC_API_KEY is set, else openai, else extractive")
+    p_sum.set_defaults(func=cmd_summarize)
     args = parser.parse_args(argv)
     args.func(args)
 
